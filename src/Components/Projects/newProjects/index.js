@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NewProject() {
   const [title, settitle] = useState("");
   const [description, setdescription] = useState("");
-  const [projectImage, setprojectImage] = useState({});
+  const [projectImage, setprojectImage] = useState("");
   const [Error, setError] = useState(null);
   const [Loading, setLoading] = useState(false);
   const [Success, setSuccess] = useState(false);
