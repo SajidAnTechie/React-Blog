@@ -61,6 +61,7 @@ const SingleProject = (props) => {
                 <p>
                   Posted By{" "}
                   <strong>
+				  //{singleProjectData.userId && singleProjectData.userId.username}
                     {singleProjectData.userId
                       ? singleProjectData.userId.username
                       : ""}
