@@ -1,17 +1,38 @@
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 const instance = axios.create({
   baseURL: "http://localhost:5000/api/v1/project",
 });
 
-//it is asynchronous task so when it get redered token variable something store null before token is store in local storage
-//of browser and skip this operation.
-//Two solution:-
-//1.Use async/await to wait to get token
-//2. store in state
-const token = localStorage.getItem("token");
+instance.interceptors.request.use(
+  function (config) {
+    // Do something before request is sent
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `bearer ${token}`;
+    }
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
 
-//better to store token in state
+// Handling API 401 error with interceptor.
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  function (error) {
+    if (error.response.status === 401) {
+      <Redirect to="/logout" />;
+      return Promise.reject(error);
+    }
 
-instance.defaults.headers.common["Authorization"] = `bearer ${token}`;
+    return Promise.reject(error);
+  }
+);
+
 export default instance;
